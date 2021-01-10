@@ -1,16 +1,13 @@
 import React from 'react';
 import { Text, View } from 'react-native';
+import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from './src/home'
 import { Icon, Ionicons } from 'react-native-vector-icons';
-function Settings() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Settings!</Text>
-    </View>
-  );
-}
+import Feed from './src/pages/feed/Feed';
+import Settings from './src/pages/settings/Settings';
+
 
 const Tab = createBottomTabNavigator();
 
@@ -23,8 +20,10 @@ function MyTabs() {
 
           if (route.name === 'Home') {
             iconName = 'alarm'
-          } else if (route.name === 'Settings') {
+          } else if (route.name === 'Feed') {
             iconName = 'md-newspaper';
+          } else if( route.name === 'Settings' ){
+            iconName = 'rocket';
           }
 
           // You can return any component that you like here!
@@ -38,7 +37,9 @@ function MyTabs() {
 
     >
       <Tab.Screen name="Home" component={Home} options={{ headerShown: false }} />
-      <Tab.Screen name="Settings" component={Settings} />
+      <Tab.Screen name="Feed" component={Feed} options={{ headerShown: false }}/>
+      <Tab.Screen name="Settings" component={Settings} options={{ headerShown: false }}/>
+
     </Tab.Navigator>
   );
 }
