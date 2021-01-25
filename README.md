@@ -1,2 +1,2 @@
-# IRPO-no-time-brother
+# IPRO-no-time-brother
 Prototipo para gestão de horas
