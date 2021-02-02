@@ -1,6 +1,15 @@
 import React, { useState } from 'react';
-import { StyleSheet, Button, TextInput, View, Dimensions, Text, TouchableOpacity } from 'react-native';
-import { Formik } from 'formik';
+import {
+    StyleSheet,
+    Button, TextInput,
+    View,
+    Dimensions,
+    Text,
+    TouchableOpacity,
+    Modal,
+    Pressable
+} from 'react-native';
+import { Formik, Field } from 'formik';
 import { Picker } from '@react-native-picker/picker';
 import DatePicker from 'react-native-datepicker';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -8,22 +17,35 @@ const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
 export default function TaskForm(props) {
 
+    // Titulo da atividade
+    const [title, setTitle] = useState("")
+    // Tipo de atividade
     const [typeActivity, setTypeActivity] = useState();
 
+    // Data atual, outra data
     let data = new Date();
     const todaysDate = new Date(data.valueOf() - data.getTimezoneOffset() * 60000);
-    const [selectedDate, setSelectedDate] = useState(todaysDate.toISOString().substring(0, 10));
-
-    const [time, setTime] = useState("00:00");
+    const [selectedDate, setSelectedDate] = useState(todaysDate);
     const [date, setDate] = useState(new Date(1598051730000));
     const [mode, setMode] = useState('date');
     const [show, setShow] = useState(false);
 
+    // DUração
+    const [time, setTime] = useState("00:00");
+
+    // O.K.R
     const [okr, setOkr] = useState();
 
+    // Modal de observação =================================
+    // 
+    // Mostrar e esconder
+    const [modalVisible, setModalVisible] = useState(false);
+    // Dados de observação
+    const [observation, setObservation] = useState("");
+    // =====================================================
 
-    const onChange = (event, selectedDate) => {
-        const currentDate = selectedDate || date;
+    const onChange = (event, selectedDateTime) => {
+        const currentDate = selectedDateTime || date;
         setShow(Platform.OS === 'ios');
         let auxTime = currentDate.toLocaleTimeString([], { timeStyle: 'short' });
         auxTime = auxTime.slice(0, 4 + 1);
@@ -41,19 +63,28 @@ export default function TaskForm(props) {
         showMode('time');
     };
 
-
+    function enviarDados(){
+        let object = {
+            title: title,
+            typeActivity: typeActivity,
+            selectedDate: selectedDate,
+            time: time,
+            okr: okr,
+            observation: observation
+        }
+        console.log(object)
+    }
     return (
         <Formik
             initialValues={{ email: '' }}
-            onSubmit={values => console.log(values)}
+            onSubmit={enviarDados}
         >
             {({ handleChange, handleBlur, handleSubmit, values }) => (
                 <View style={styles.formContainer}>
                     <Text style={styles.textInputTitle}>Atividade</Text>
                     <TextInput
-                        onChangeText={handleChange('email')}
-                        onBlur={handleBlur('email')}
-                        value={values.email}
+                        onChangeText={(title) => setTitle(title)}
+                        value={title}
                         style={styles.textInput}
                     />
                     <Text style={styles.textInputTitle}>Tipo de Atividade</Text>
@@ -110,7 +141,7 @@ export default function TaskForm(props) {
                                 <TextInput
                                     editable={false}
                                     value={time}
-                                    style={styles.textInput}
+                                    style={styles.timeTextInput}
                                 />
                             </TouchableOpacity>
                             {show && (
@@ -136,52 +167,72 @@ export default function TaskForm(props) {
                                     onValueChange={(itemValue, itemIndex) =>
                                         setOkr(itemValue)
                                     }>
-                                    <Picker.Item label="Funções do cargo" value="Funções do cargo" />
-                                    <Picker.Item label="Reuniões do setor/coordenadoria" value="Reuniões do setor/coordenadoria" />
-                                    <Picker.Item label="Reuniões fora do escopo" value="Reuniões fora do escopo" />
-                                    <Picker.Item label="RA e RG" value="RA e RG" />
-                                    <Picker.Item label="AGO" value="AGO" />
-                                    <Picker.Item label="Propsecção Ativa" value="Propsecção Ativa" />
-                                    <Picker.Item label="Execução de projetos" value="Execução de projetosa" />
-                                    <Picker.Item label="Palestras e/ou capacitações" value="Palestras e/ou capacitações" />
-                                    <Picker.Item label="Processo seletivo" value="Processo seletivo" />
-                                    <Picker.Item label="Interações MEJ" value="Interações MEJ" />
+                                    <Picker.Item label="1.2 - Funções do cargo" value="Funções do cargo" />
+                                    <Picker.Item label="1.3 -Reuniões do setor/coordenadoria" value="Reuniões do setor/coordenadoria" />
+                                    <Picker.Item label="1.1 - Reuniões fora do escopo" value="Reuniões fora do escopo" />
+                                    <Picker.Item label="2.1 - RA e RG" value="RA e RG" />
+                                    <Picker.Item label="3.1 - AGO" value="AGO" />
+                                    <Picker.Item label="3.2 - Propsecção Ativa" value="Propsecção Ativa" />
+                                    <Picker.Item label="3.3 - Execução de projetos" value="Execução de projetosa" />
+                                    <Picker.Item label="4.1 - Palestras e/ou capacitações" value="Palestras e/ou capacitações" />
+                                    <Picker.Item label="4.2 - Processo seletivo" value="Processo seletivo" />
+                                    <Picker.Item label="4.3 - Interações MEJ" value="Interações MEJ" />
                                 </Picker>
                             </View>
                         </View>
                         <View style={styles.observationAndOkrContainerChild}>
-                            <Text style={styles.textInputTitle}>Duração</Text>
-                            <TouchableOpacity onPress={showTimepicker} >
-                                <TextInput
-                                    editable={false}
-                                    value={time}
-                                    style={styles.textInput}
-                                />
-                            </TouchableOpacity>
-                            {show && (
-                                <DateTimePicker
-                                    testID="dateTimePicker"
-                                    value={date}
-                                    mode={mode}
-                                    is24Hour={true}
-                                    display="clock"
-                                    onChange={onChange}
-                                />
-                            )}
+                            <Pressable
+                                style={[styles.openerModalButton]}
+                                onPress={() => setModalVisible(true)}
+                            >
+                                <Text style={styles.textStyle}>Observação</Text>
+                            </Pressable>
+                            <Modal
+                                animationType="slide"
+                                transparent={false}
+                                visible={modalVisible}
+                                onRequestClose={() => {
+                                    Alert.alert("Modal has been closed.");
+                                    setModalVisible(!modalVisible);
+                                }}
+                            >
+                                <View style={styles.centeredView}>
+                                    <View style={styles.modalView}>
+                                        <Text style={styles.modalText}>Hello World!</Text>
+                                        <TextInput
+                                            multiline
+                                            onChangeText={(observation) => setObservation(observation)}
+                                            onBlur={handleBlur('observation')}
+                                            value={observation}
+                                            style={styles.textInputInsideModal}
+                                        />
+                                        <Pressable
+                                            style={[styles.buttonInsideModal]}
+                                            onPress={() => setModalVisible(!modalVisible)}
+                                        >
+                                            <Text style={styles.textStyle}>Hide Modal</Text>
+                                        </Pressable>
+                                    </View>
+                                </View>
+                            </Modal>
+
                         </View>
                     </View>
-                    <Button onPress={handleSubmit} title="Submit"
-                        style={{
-                            backgroundColor: '#fa570a',
-                            height: 60,
-                            fontSize: 30,
-                            width: screenWidth * 0.95,
-                            borderRadius: 12,
-                            alignSelf: 'center',
-                            padding: 15,
-                            elevation: 10,
-                            marginBottom: 10,
-                        }} />
+                    <Pressable onPress={handleSubmit} style={({ pressed }) => [
+                        {
+                            backgroundColor: pressed
+                                ? '#bb460b'
+                                : '#fa570a'
+                        },
+                        styles.submitButton
+                    ]}>
+                        <Text style={{
+                            color: "#fff",
+                            fontWeight: "bold",
+                            fontSize: 24,
+                            textAlign: 'center'
+                        }}>Submit</Text>
+                    </Pressable>
                 </View>
             )}
         </Formik>
@@ -235,6 +286,18 @@ const styles = StyleSheet.create({
         alignContent: 'center',
         alignItems: 'center'
     },
+    timeTextInput: {
+        backgroundColor: '#fff',
+        color: "#000",
+        height: 50,
+        fontSize: 24,
+        width: "100%",
+        borderRadius: 6,
+        alignSelf: 'center',
+        padding: 8,
+        elevation: 1,
+        marginBottom: 10,
+    },
     dateAndDurationContainer: {
         display: 'flex',
         flexDirection: 'row',
@@ -262,6 +325,73 @@ const styles = StyleSheet.create({
         elevation: 1,
         marginBottom: 10,
         color: '#000a4c',
+    },
+
+
+
+    modalView: {
+        margin: 5,
+        backgroundColor: "white",
+        borderRadius: 20,
+        padding: 10,
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+
+    },
+    openerModalButton: {
+        borderRadius: 6,
+        padding: 5,
+        elevation: 2,
+        backgroundColor: "#000a4c",
+        flex: 1,
+        marginBottom: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    buttonInsideModal: {
+        borderRadius: 6,
+        padding: 5,
+        elevation: 2,
+        backgroundColor: "#000a4c",
+        marginBottom: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    textStyle: {
+        fontSize: 20,
+        color: "white",
+        fontWeight: "bold",
+        textAlign: "center"
+    },
+    modalText: {
+        marginBottom: 15,
+        textAlign: "center"
+    },
+    textInputInsideModal: {
+        backgroundColor: '#fff',
+        borderColor: "#000a4c",
+        borderWidth: 1,
+        fontSize: 20,
+        width: "100%",
+        borderRadius: 6,
+        alignSelf: 'center',
+        padding: 8,
+
+        marginBottom: 10,
+    },
+
+    submitButton: {
+        borderRadius: 6,
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        elevation: 2,
     }
 });
 
