@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { StyleSheet, Text, View, Image, SafeAreaView, TouchableOpacity, Dimensions } from 'react-native';
 import { createBottomTabNavigator, } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -7,11 +7,14 @@ import HomeHorizontalList from './home-horizontal-list/homeHorizontalList'
 import HomeMainButtons from './home-main-buttons/homeMainButtons';
 import NewTask from './pages/new-task/NewTask';
 import History from './pages/history/History';
+
+import 'firebase/firestore';
+import firebase from './config/firebase';
 const Tab = createBottomTabNavigator();
 const { width } = Dimensions.get('window')
 
 
-function SecondHome({ navigation }) {
+function SecondHome() {
   const data = [
     {
       title: 'Relatório Semanal',
@@ -29,6 +32,8 @@ function SecondHome({ navigation }) {
       time: '1h'
     }
   ]
+
+ 
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.homeTitle}>Olá, Gabriel</Text>
@@ -49,11 +54,26 @@ function SecondHome({ navigation }) {
 
 const Stack = createStackNavigator();
 export default function Home() {
-  /*<Stack.Screen name="Settings" component={NewTask} />
-  <Stack.Screen name="Settings" component={History} />*/
-  /**/
+ 
 
-  return (
+  /**/
+  /*var db = firebase.firestore();
+ 
+  useEffect(() => {
+    // Create a reference to the cities collection
+    var docRef = db.collection("users").doc(dados);
+    docRef.get().then((doc) => {
+      if (doc.exists) {
+        console.log("Document data:", doc.data());
+      } else {
+        // doc.data() will be undefined in this case
+        console.log("No such document!");
+      }
+    }).catch((error) => {
+      console.log("Error getting document:", error);
+    });
+  })*/
+  return ( 
     <Stack.Navigator>
       <Stack.Screen name="SecondHome" component={SecondHome} options={{ headerShown: false }} />
       <Stack.Screen name="NewTask" component={NewTask} options={{ headerShown: false }} />
@@ -86,6 +106,6 @@ const styles = StyleSheet.create({
     fontSize: 28,
     color: '#000a4c',
     marginLeft: 20,
-    marginBottom: width*0.05,
+    marginBottom: width * 0.05,
   }
 });

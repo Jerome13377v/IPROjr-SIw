@@ -8,49 +8,45 @@ import {
     TouchableOpacity,
     KeyboardAvoidingView,
     Platform
-} from 'react-native'
+} from 'react-native';
+
 import firebase from '../../config/firebase';
-//import auth from '@react-native-firebase/auth';
+
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import 'firebase/firestore';
 
-function loginFirebase(email, password) {
-   /* firebase.auth()
-        .signInWithPopup(provider)
-        .then((result) => {
-            /** @type {firebase.auth.OAuthCredential} 
-            var credential = result.credential;
-
-            // This gives you a Google Access Token. You can use it to access the Google API.
-            var token = credential.accessToken;
-            // The signed-in user info.
-            var user = result.user;
-
-            navigation.navigate("MyTabs")
-            // ...
-        }).catch((error) => {
-            // Handle Errors here.
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            // The email of the user's account used.
-            var email = error.email;
-            // The firebase.auth.AuthCredential type that was used.
-            var credential = error.credential;
-            // ...
-        });*/
-
-        console.log("Email: "+email+"\nSenha: "+password);
-}
 export default function Login({ navigation }) {
-
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [errorLogin, setErrorLogin] = useState(false);
-    //var provider = new firebase.auth.GoogleAuthProvider();
 
-    useEffect(() => {
+    useEffect(() =>{
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+              
+              navigation.navigate("MyTabs", { idUser: user.uid})
+            } else {
+              // User is signed out
+              // ...
+            }
+          });
+    })
+    function loginFirebase() {
+        firebase.auth().signInWithEmailAndPassword(email, password)
+            .then((userCredential) => {
+                // Signed in
+                var user = userCredential.user;
+                console.log(user);
+                navigation.navigate("MyTabs", { idUser: user.uid });
+                // ...
+            })
+            .catch((error) => {
+                setErrorLogin(true);
+                let errorCode = error.code;
+                let errorMessage = error.message;
+            });
+    }
 
-    }, [])
 
     return (
 
@@ -101,7 +97,7 @@ export default function Login({ navigation }) {
                 :
                 <TouchableOpacity
                     style={styles.buttonLogin}
-                    onPress={loginFirebase(email, password)}
+                    onPress={loginFirebase}
                 >
                     <Text style={styles.textButtonLogin}>Login</Text>
                 </TouchableOpacity>
@@ -113,7 +109,6 @@ export default function Login({ navigation }) {
                     onPress={() => navigation.navigate("NewUser")}
                 > Registre-se</Text>
             </Text>
-            <View style={{ height: 100 }} />
         </KeyboardAvoidingView>
 
 
