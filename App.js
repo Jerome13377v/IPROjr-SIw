@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
@@ -13,13 +13,22 @@ import NewUser from './src/pages/new-user/NewUser';
 import { createContext } from 'react';
 
 const Tab = createBottomTabNavigator();
+export const UserContext = createContext();
 
 function MyTabs({ navigation, route }) {
-  
+
+  const [idUser, setIdUser] = useState(route.params.idUser);
+
+
   useEffect(() => {
     console.log(route.params.idUser);
   })
   return (
+    <UserContext.Provider value={{
+      idUser,
+      setIdUser
+    }}>
+
       <Tab.Navigator
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
@@ -47,6 +56,7 @@ function MyTabs({ navigation, route }) {
         <Tab.Screen name="Feed" component={Feed} options={{ headerShown: false }} />
         <Tab.Screen name="Settings" component={Settings} options={{ headerShown: false }} />
       </Tab.Navigator>
+    </UserContext.Provider>
   );
 }
 

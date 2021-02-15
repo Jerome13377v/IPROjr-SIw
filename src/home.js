@@ -7,7 +7,7 @@ import HomeHorizontalList from './home-horizontal-list/homeHorizontalList'
 import HomeMainButtons from './home-main-buttons/homeMainButtons';
 import NewTask from './pages/new-task/NewTask';
 import History from './pages/history/History';
-
+import { UserContext } from '../App';
 import 'firebase/firestore';
 import firebase from './config/firebase';
 const Tab = createBottomTabNavigator();
@@ -33,7 +33,7 @@ function SecondHome() {
     }
   ]
 
- 
+
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.homeTitle}>Olá, Gabriel</Text>
@@ -54,17 +54,18 @@ function SecondHome() {
 
 const Stack = createStackNavigator();
 export default function Home() {
- 
+  const { idUser, setIdUser } = useContext(UserContext);
 
-  /**/
-  /*var db = firebase.firestore();
- 
+  const [ userData, setUserData ] = useState({});
+  var db = firebase.firestore();
+
   useEffect(() => {
     // Create a reference to the cities collection
-    var docRef = db.collection("users").doc(dados);
+    var docRef = db.collection("users").doc(idUser);
     docRef.get().then((doc) => {
       if (doc.exists) {
         console.log("Document data:", doc.data());
+        setUserData(doc.data());
       } else {
         // doc.data() will be undefined in this case
         console.log("No such document!");
@@ -72,8 +73,9 @@ export default function Home() {
     }).catch((error) => {
       console.log("Error getting document:", error);
     });
-  })*/
-  return ( 
+  })
+
+  return (
     <Stack.Navigator>
       <Stack.Screen name="SecondHome" component={SecondHome} options={{ headerShown: false }} />
       <Stack.Screen name="NewTask" component={NewTask} options={{ headerShown: false }} />
