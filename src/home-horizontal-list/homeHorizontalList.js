@@ -7,7 +7,7 @@ export default function HomeHorizontalList(props) {
     return (
         <FlatList 
             data={props.data}
-            keyExtractor={(item) => String(item)}
+            keyExtractor={(item) => item.id.toString()}
             horizontal
             snapToAlignment={'start'}
             scrollEventThrottle={16}

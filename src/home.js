@@ -14,29 +14,51 @@ const Tab = createBottomTabNavigator();
 const { width } = Dimensions.get('window')
 
 
-function SecondHome() {
+function SecondHome({ navigation }) {
   const data = [
     {
+      id:1,
       title: 'Relatório Semanal',
       observation: 'Estive fazendo o relatorio da semana',
       time: '1h25min'
     },
     {
+      id:2,
       title: 'Leitura de e-mails',
       observation: 'Estive lendo emails',
       time: '45min'
     },
     {
+      id:3,
       title: 'Respondendo Telegram',
       observation: 'Repondi muitas mensagens',
       time: '1h'
     }
   ]
-
-
+  const { idUser, setIdUser } = useContext(UserContext);
+  const [ userData, setUserData ] = useState({});
+  var db = firebase.firestore();
+  useEffect(()=>{
+    var docRef = db.collection("users").doc(idUser);
+    docRef.get().then((doc) => {
+      if (doc.exists) {
+        console.log("Document data:", doc.data());
+        setUserData(doc.data());
+      } else {
+        // doc.data() will be undefined in this case
+        console.log("No such document!");
+      }
+    }).catch((error) => {
+      console.log("Error getting document:", error);
+    });
+  }, []);
+  
+  
+  
+  
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.homeTitle}>Olá, Gabriel</Text>
+      <Text style={styles.homeTitle}>Olá, {userData.name}</Text>
       <StatusBar style="auto" />
       <View style={styles.mainButtonsContainer}>
         <TouchableOpacity onPress={() => navigation.navigate('NewTask')}>
@@ -54,13 +76,13 @@ function SecondHome() {
 
 const Stack = createStackNavigator();
 export default function Home() {
+  
   const { idUser, setIdUser } = useContext(UserContext);
-
   const [ userData, setUserData ] = useState({});
   var db = firebase.firestore();
-
-  useEffect(() => {
-    // Create a reference to the cities collection
+  
+  
+  useEffect(()=>{
     var docRef = db.collection("users").doc(idUser);
     docRef.get().then((doc) => {
       if (doc.exists) {
@@ -73,11 +95,12 @@ export default function Home() {
     }).catch((error) => {
       console.log("Error getting document:", error);
     });
-  })
+  }, []);
+  
 
   return (
     <Stack.Navigator>
-      <Stack.Screen name="SecondHome" component={SecondHome} options={{ headerShown: false }} />
+      <Stack.Screen name="SecondHome" component={SecondHome} options={{ headerShown: false }}/>
       <Stack.Screen name="NewTask" component={NewTask} options={{ headerShown: false }} />
       <Stack.Screen name="History" component={History} options={{ headerShown: false }} />
     </Stack.Navigator>

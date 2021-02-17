@@ -22,7 +22,7 @@ function MyTabs({ navigation, route }) {
 
   useEffect(() => {
     console.log(route.params.idUser);
-  })
+  },[])
   return (
     <UserContext.Provider value={{
       idUser,
