@@ -15,14 +15,19 @@ import 'firebase/firestore';
 export default function NewUser({ navigation }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [passwordConfirm, setPasswordConfirm] = useState("");
+    const [name, setName] = useState("");
     const [errorRegister, setErrorRegister] = useState(false);
+    const [ errorMessage, setErrorMessage ] = useState("Email ou senha inválidos");
     const register = () => {
-        firebase.auth().createUserWithEmailAndPassword(email, password)
+
+        if(password === passwordConfirm){
+            firebase.auth().createUserWithEmailAndPassword(email, password)
             .then((userCredential) => {
-        
+                
                 var user = userCredential.user;
                 var db = firebase.firestore();
-
+                
                 db.collection("users").doc(user.uid).set({
                     name: "Gabriel",
                     course: "Software Engineering"
@@ -34,13 +39,18 @@ export default function NewUser({ navigation }) {
                     console.error("Error writing document: ", error);
                 });
                 navigation.navigate("MyTabs",  { idUser: user.uid});
-            
+                
             })
             .catch((error) => {
+                setErrorRegister(true);
                 let errorCode = error.code;
                 let errorMessage = error.message;
                 
             });
+        }else{
+            setErrorRegister(true);
+            setErrorMessage("As senhas não se coincidem");
+        }
     }
 
     return (
@@ -48,7 +58,14 @@ export default function NewUser({ navigation }) {
             behavior={Platform.OS === "ios" ? "padding" : "height"}
             style={styles.container}
         >
-            <Text style={styles.newTaskTitle}>Criar Conta</Text>
+            <Text style={styles.registerScreenTitle}>Criar Conta</Text>
+            <TextInput
+                style={styles.credentialInput}
+                placeholder="Nome"
+                type="text"
+                value={name}
+                onChangeText={(text) => setName(text)}
+            />
             <TextInput
                 style={styles.credentialInput}
                 placeholder="Digite o seu e-mail"
@@ -65,6 +82,14 @@ export default function NewUser({ navigation }) {
                 value={password}
                 onChangeText={(text) => setPassword(text)}
             />
+            <TextInput
+                style={styles.credentialInput}
+                secureTextEntry={true}
+                placeholder="Digite a senha novamente"
+                type="text"
+                value={passwordConfirm}
+                onChangeText={(text) => setPasswordConfirm(text)}
+            />
             {errorRegister === true
                 ?
                 <View style={styles.contentAlert}>
@@ -73,12 +98,12 @@ export default function NewUser({ navigation }) {
                         size={24}
                         color="#bdbdbd"
                     />
-                    <Text style={styles.warningAlert}>Email ou senha inválidos</Text>
+                    <Text style={styles.warningAlert}>{errorMessage}</Text>
                 </View>
                 :
                 null
             }
-            {email === "" || password === ""
+            {email === "" || password === "" || name === "" || passwordConfirm === ""
                 ?
                 <TouchableOpacity
                     disabled={true}
@@ -91,7 +116,7 @@ export default function NewUser({ navigation }) {
                     style={styles.buttonRegister}
                     onPress={register}
                 >
-                    <Text style={styles.textButtonRegister}>Login</Text>
+                    <Text style={styles.textButtonRegister}>To dentro!!</Text>
                 </TouchableOpacity>
             }
         </KeyboardAvoidingView>
@@ -99,13 +124,7 @@ export default function NewUser({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-    newTaskTitle: {
-        fontWeight: 'bold',
-        fontSize: 32,
-        color: '#000a4c',
-        marginTop: 40,
-        marginLeft: 20
-    },
+   
     container: {
         flex: 1,
         backgroundColor: '#e9ebef',
@@ -113,11 +132,11 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         paddingTop: Platform.OS === "ios" ? 0 : 50,
     },
-    loginScreenTitle: {
+    registerScreenTitle: {
         fontWeight: 'bold',
         fontSize: 36,
         color: '#000a4c',
-        marginTop: 40,
+        marginTop: 10,
         marginBottom: 10,
     },
     credentialInput: {
