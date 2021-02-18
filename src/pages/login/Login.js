@@ -144,6 +144,7 @@ const styles = StyleSheet.create({
         marginLeft: 'auto',
         marginRight: 'auto',
         color: '#000a4c',
+        fontSize: 22
     },
     buttonLogin: {
         width: 200,

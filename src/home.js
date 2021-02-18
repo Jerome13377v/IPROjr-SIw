@@ -35,6 +35,7 @@ function SecondHome({ navigation }) {
       time: '1h'
     }
   ]
+  
   const { idUser, setIdUser } = useContext(UserContext);
   const [ userData, setUserData ] = useState({});
   var db = firebase.firestore();

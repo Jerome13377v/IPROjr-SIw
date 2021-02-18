@@ -29,7 +29,7 @@ export default function NewUser({ navigation }) {
                 var db = firebase.firestore();
                 
                 db.collection("users").doc(user.uid).set({
-                    name: "Gabriel",
+                    name: name,
                     course: "Software Engineering"
                 })
                 .then(() => {
@@ -147,11 +147,10 @@ const styles = StyleSheet.create({
         borderColor: "#000a4c",
         borderWidth: 1,
         borderRadius: 8,
-        //borderBottomWidth:1,
-        //borderBottomColor:'#000a4c',
         marginLeft: 'auto',
         marginRight: 'auto',
         color: '#000a4c',
+        fontSize: 22
     },
     buttonRegister: {
         width: 200,
