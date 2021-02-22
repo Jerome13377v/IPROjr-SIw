@@ -1,9 +1,10 @@
 import React from 'react'
-import { Text, View, StyleSheet, SafeAreaView, TextInput } from 'react-native'
+import { Text, View, StyleSheet, SafeAreaView, TextInput,KeyboardAvoidingView, } from 'react-native'
 import TaskForm  from './form'
 export default function NewTask() {
     return (
         <SafeAreaView>
+        
             <Text style={styles.newTaskTitle}>Nova tarefa</Text>
             <TaskForm/>
         </SafeAreaView>
