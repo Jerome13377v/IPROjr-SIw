@@ -10,6 +10,9 @@ import History from './pages/history/History';
 import { UserContext } from '../App';
 import 'firebase/firestore';
 import firebase from './config/firebase';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
 const Tab = createBottomTabNavigator();
 const { width } = Dimensions.get('window')
 
@@ -35,7 +38,13 @@ function SecondHome({ navigation }) {
       time: '1h'
     }
   ]
-  
+  const storeUserId = async (value) => {
+    try {
+      await AsyncStorage.setItem('idUser', value)
+    } catch (e) {
+      // saving error
+    }
+  }
   const { idUser, setIdUser } = useContext(UserContext);
   const [ userData, setUserData ] = useState({});
   var db = firebase.firestore();
@@ -45,6 +54,7 @@ function SecondHome({ navigation }) {
       if (doc.exists) {
         console.log("Document data:", doc.data());
         setUserData(doc.data());
+        storeUserId(idUser);
       } else {
         // doc.data() will be undefined in this case
         console.log("No such document!");
@@ -62,7 +72,7 @@ function SecondHome({ navigation }) {
       <Text style={styles.homeTitle}>Olá, {userData.name}</Text>
       <StatusBar style="auto" />
       <View style={styles.mainButtonsContainer}>
-        <TouchableOpacity onPress={() => navigation.navigate('NewTask')}>
+        <TouchableOpacity onPress={() => navigation.navigate('NewTask', {idUser: idUser})}>
           <HomeMainButtons buttonType="add-alarm" buttonTitle="Nova Tarefa" />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('History')}>

@@ -11,6 +11,7 @@ import Settings from './src/pages/settings/Settings';
 import Login from './src/pages/login/Login';
 import NewUser from './src/pages/new-user/NewUser';
 import { createContext } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Tab = createBottomTabNavigator();
 export const UserContext = createContext();
@@ -19,8 +20,16 @@ function MyTabs({ navigation, route }) {
 
   const [idUser, setIdUser] = useState(route.params.idUser);
 
+  const storeUserId = async (value) => {
+    try {
+      await AsyncStorage.setItem('idUser', value)
+    } catch (e) {
+      // saving error
+    }
+  }
 
   useEffect(() => {
+    storeUserId(route.params.idUser)
     console.log(route.params.idUser);
   },[])
   return (

@@ -8,7 +8,9 @@ import {
     TouchableOpacity,
     KeyboardAvoidingView,
     Modal,
-    Pressable
+    Pressable,
+    DrawerLayoutAndroidBase,
+    useContext
 } from 'react-native';
 import { Formik, Field } from 'formik';
 import { Picker } from '@react-native-picker/picker';
@@ -17,12 +19,24 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import RNDateTimePicker from '@react-native-community/datetimepicker';
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
+import { UserContext } from '../../../App';
+import 'firebase/firestore';
+import firebase from '../../config/firebase';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
+
 export default function TaskForm(props) {
+    const [idUser, setIdUser ] = useState(props.idUser);
+    var database = firebase.firestore();
+
 
     // Titulo da atividade
     const [title, setTitle] = useState("")
     // Tipo de atividade
     const [typeActivity, setTypeActivity] = useState();
+
+
 
     // Data atual, outra data
     let data = new Date();
@@ -66,6 +80,7 @@ export default function TaskForm(props) {
     };
 
     function enviarDados() {
+        console.log(props.idUser)
         let object = {
             title: title,
             typeActivity: typeActivity,
@@ -74,6 +89,7 @@ export default function TaskForm(props) {
             okr: okr,
             observation: observation
         }
+        database.collection(idUser).add(object)
         console.log(object)
     }
     return (

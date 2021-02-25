@@ -12,6 +12,9 @@ const styles = StyleSheet.create({
         padding: 8,
         shadowColor: '#171717',
         elevation: 8,
+        flexDirection: 'column',
+        justifyContent:'space-evenly',
+        marginTop:20,
     },
     activityTitle: {
         fontWeight: 'bold',

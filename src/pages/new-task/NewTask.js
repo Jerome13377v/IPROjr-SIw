@@ -1,12 +1,15 @@
 import React from 'react'
 import { Text, View, StyleSheet, SafeAreaView, TextInput,KeyboardAvoidingView, } from 'react-native'
 import TaskForm  from './form'
-export default function NewTask() {
+
+
+
+export default function NewTask({ navigation, route }) {
     return (
         <SafeAreaView>
         
             <Text style={styles.newTaskTitle}>Nova tarefa</Text>
-            <TaskForm/>
+            <TaskForm idUser={route.params.idUser}/>
         </SafeAreaView>
     )
 }
