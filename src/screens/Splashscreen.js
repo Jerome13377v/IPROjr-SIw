@@ -10,7 +10,6 @@ const size = Dimensions.get('window').width * 0.9
 export default function Splashscreen({ navigation }) {
 
     useEffect(() => {
-        setTimeout(() =>{
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
 
@@ -27,8 +26,9 @@ export default function Splashscreen({ navigation }) {
 
             }
         });
+        /*setTimeout(() =>{
             
-        }, 4000);
+        }, 4000);*/
     }, [])
     return (
         <View style={styles.container}>
