@@ -23,6 +23,7 @@ import { UserContext } from '../../../App';
 import 'firebase/firestore';
 import firebase from '../../config/firebase';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { NavigationContext } from 'react-navigation';
 
 
 
@@ -34,7 +35,7 @@ export default function TaskForm(props) {
     // Titulo da atividade
     const [title, setTitle] = useState("")
     // Tipo de atividade
-    const [typeActivity, setTypeActivity] = useState();
+    const [typeActivity, setTypeActivity] = useState("none");
 
 
 
@@ -50,7 +51,7 @@ export default function TaskForm(props) {
     const [time, setTime] = useState("00:00");
 
     // O.K.R
-    const [okr, setOkr] = useState();
+    const [okr, setOkr] = useState("none");
 
     // Modal de observação =================================
     // 
@@ -91,6 +92,7 @@ export default function TaskForm(props) {
         }
         database.collection(idUser).add(object)
         console.log(object)
+        props.navigation.navigate("Success", { idUser: props.idUser })
     }
     return (
 

@@ -9,7 +9,7 @@ export default function NewTask({ navigation, route }) {
         <SafeAreaView>
         
             <Text style={styles.newTaskTitle}>Nova tarefa</Text>
-            <TaskForm idUser={route.params.idUser}/>
+            <TaskForm idUser={route.params.idUser} navigation={navigation}/>
         </SafeAreaView>
     )
 }

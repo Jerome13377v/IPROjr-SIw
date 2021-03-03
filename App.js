@@ -13,6 +13,7 @@ import NewUser from './src/pages/new-user/NewUser';
 import { createContext } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Splashscreen from './src/screens/Splashscreen';
+import Success from './src/screens/Success';
 const Tab = createBottomTabNavigator();
 export const UserContext = createContext();
 
@@ -74,6 +75,7 @@ export function AppStartupScreen() {
 
   return (
     <Stack.Navigator initialRouteName="Splash">
+      <Stack.Screen name="Success" component={Success} options={{ headerShown: false }} />
       <Stack.Screen name="Splash" component={Splashscreen} options={{ headerShown: false }} />
       <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
       <Stack.Screen name="NewUser" component={NewUser} options={{ headerShown: false }} />
