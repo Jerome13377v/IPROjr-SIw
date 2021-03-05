@@ -8,11 +8,11 @@ export default function HomeMainButtons(props) {
 
     return (
         <View style={styles.button}>
-            <View style={styles.contentView}>
-                <Text style={styles.buttonTitle}>{props.buttonTitle}</Text>
+            <View style={styles.contentViewIcon}>
+                <MaterialIcons name={props.buttonType} size={80} color="#000a4c" />
             </View>
             <View style={styles.contentView}>
-                <MaterialIcons name={props.buttonType} size={80} color="#000a4c" />
+                <Text style={styles.buttonTitle}>{props.buttonTitle}</Text>
             </View>
         </View>
     )
@@ -20,30 +20,45 @@ export default function HomeMainButtons(props) {
 
 const styles = StyleSheet.create({
     button: {
-        width: screenWidth * 0.45,
+        width: screenWidth * 0.40,
         backgroundColor: '#fff',
         borderRadius: 12,
-        height: screenHeight * 0.4,
-        justifyContent: 'space-evenly',
+        height: screenWidth * 0.40,
         alignItems: 'center',
+        flexDirection:'column',
         alignContent: 'center',
         shadowColor: '#171717',
         shadowOffset: { width: 2, height: 4 },
         shadowOpacity: 0.2,
         shadowRadius: 0,
-        elevation: 12
+        elevation: 12,
+        marginTop:20
     },
     buttonTitle: {
         fontWeight: 'bold',
-        fontSize: 28,
+        fontSize: 24,
         color: '#000a4c',
-        marginTop: 20,
-        maxWidth: 130,
-        textAlign: 'center'
+        textAlign: 'center',
+
     },
     contentView:{
-        flex:1,
         justifyContent:'center',
-        flexDirection:'column'
+        flexDirection:'column',
+        flexBasis:'auto',
+        flexShrink:0,
+        flexGrow:1,
+        //backgroundColor:'green',
+        marginBottom:30
+
+
+    },
+    contentViewIcon:{
+        justifyContent:'center',
+        flexDirection:'column',
+        flexBasis:100,
+        flexShrink:0,
+        flexGrow:2,
+        //backgroundColor:'red'
+
     }
 });

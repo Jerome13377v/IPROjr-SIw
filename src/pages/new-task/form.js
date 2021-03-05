@@ -80,12 +80,25 @@ export default function TaskForm(props) {
         showMode('time');
     };
 
+    function FormataStringData(data) {
+        //Função que formata datas
+        var dia  = data.split("/")[0];
+        var mes  = data.split("/")[1];
+        var ano  = data.split("/")[2];
+      
+        return ano + '-' + ("0"+mes).slice(-2) + '-' + ("0"+dia).slice(-2);
+        // Utilizo o .slice(-2) para garantir o formato com 2 digitos.
+      }
+
     function enviarDados() {
         console.log(props.idUser)
+        let dateStringFormated = FormataStringData(selectedDate);
+        var ISODate = new Date(dateStringFormated);
         let object = {
             title: title,
             typeActivity: typeActivity,
-            selectedDate: selectedDate,
+            date: dateStringFormated,
+            iso_date:ISODate,
             time: time,
             okr: okr,
             observation: observation

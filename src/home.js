@@ -11,6 +11,7 @@ import { UserContext } from '../App';
 import 'firebase/firestore';
 import firebase from './config/firebase';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import UserProgressBar from './components/user-progress-bar/userProgressBar';
 
 
 const Tab = createBottomTabNavigator();
@@ -71,6 +72,9 @@ function SecondHome({ navigation }) {
     <SafeAreaView style={styles.container}>
       <Text style={styles.homeTitle}>Olá, {userData.name}</Text>
       <StatusBar style="auto" />
+      <View>
+        <UserProgressBar/>
+      </View>
       <View style={styles.mainButtonsContainer}>
         <TouchableOpacity onPress={() => navigation.navigate('NewTask', {idUser: idUser})}>
           <HomeMainButtons buttonType="add-alarm" buttonTitle="Nova Tarefa" />
@@ -78,9 +82,14 @@ function SecondHome({ navigation }) {
         <TouchableOpacity onPress={() => navigation.navigate('History')}>
           <HomeMainButtons buttonType="history" buttonTitle="Histórico" />
         </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('NewTask', {idUser: idUser})}>
+          <HomeMainButtons buttonType="add-alarm" buttonTitle="Nova Tarefa" />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('History')}>
+          <HomeMainButtons buttonType="history" buttonTitle="Histórico" />
+        </TouchableOpacity>
       </View>
-      <Text style={styles.todayActivityTitle}>Atividades de hoje</Text>
-      <HomeHorizontalList data={data} style={styles.horizontalActivityList} />
+     
     </SafeAreaView>
   );
 }
@@ -134,8 +143,7 @@ const styles = StyleSheet.create({
   mainButtonsContainer: {
     justifyContent: 'space-evenly',
     flexDirection: 'row',
-    marginTop: 20,
-    marginBottom: 30,
+    flexWrap:'wrap',
   },
   todayActivityTitle: {
     fontWeight: 'bold',
