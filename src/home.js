@@ -11,7 +11,8 @@ import { UserContext } from '../App';
 import 'firebase/firestore';
 import firebase from './config/firebase';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import UserProgressBar from './components/user-progress-bar/userProgressBar';
+import UserProgressBarDay from './components/user-progress-bar/userProgressBarDay';
+import UserProgressBarWeek from './components/user-progress-bar/userProgressBarWeek';
 
 
 const Tab = createBottomTabNavigator();
@@ -73,7 +74,8 @@ function SecondHome({ navigation }) {
       <Text style={styles.homeTitle}>Olá, {userData.name}</Text>
       <StatusBar style="auto" />
       <View>
-        <UserProgressBar/>
+        <UserProgressBarDay/>
+        <UserProgressBarWeek/>
       </View>
       <View style={styles.mainButtonsContainer}>
         <TouchableOpacity onPress={() => navigation.navigate('NewTask', {idUser: idUser})}>
@@ -86,7 +88,7 @@ function SecondHome({ navigation }) {
           <HomeMainButtons buttonType="add-alarm" buttonTitle="Nova Tarefa" />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('History')}>
-          <HomeMainButtons buttonType="history" buttonTitle="Histórico" />
+          <HomeMainButtons buttonType="bug-report" buttonTitle="Reportar Bug" />
         </TouchableOpacity>
       </View>
      

@@ -28,7 +28,7 @@ import { NavigationContext } from 'react-navigation';
 
 
 export default function TaskForm(props) {
-    const [idUser, setIdUser ] = useState(props.idUser);
+    const [idUser, setIdUser] = useState(props.idUser);
     var database = firebase.firestore();
 
 
@@ -41,7 +41,7 @@ export default function TaskForm(props) {
 
     // Data atual, outra data
     let data = new Date();
-    const todaysDate = new Date(data.valueOf() - data.getTimezoneOffset() * 60000);
+    const todaysDate = new Date(data.valueOf() - data.getTimezoneOffset() * 60000)
     const [selectedDate, setSelectedDate] = useState(todaysDate);
     const [date, setDate] = useState(new Date(1598051730000));
     const [mode, setMode] = useState('date');
@@ -82,30 +82,47 @@ export default function TaskForm(props) {
 
     function FormataStringData(data) {
         //Função que formata datas
-        var dia  = data.split("/")[0];
-        var mes  = data.split("/")[1];
-        var ano  = data.split("/")[2];
-      
-        return ano + '-' + ("0"+mes).slice(-2) + '-' + ("0"+dia).slice(-2);
+        var dia = data.split("/")[0];
+        var mes = data.split("/")[1];
+        var ano = data.split("/")[2];
+
+        return ano + '-' + ("0" + mes).slice(-2) + '-' + ("0" + dia).slice(-2);
         // Utilizo o .slice(-2) para garantir o formato com 2 digitos.
-      }
+    }
+    function compare(wordOne, wordTwo) {
+        return wordOne[4] === wordTwo[4];
+    }
 
     function enviarDados() {
-        console.log(props.idUser)
-        let dateStringFormated = FormataStringData(selectedDate);
+        console.log("CRU:"+selectedDate);
+
+        let dateStringFormated;
+        if(typeof(selectedDate) == 'object'){
+            dateStringFormated = selectedDate.toISOString();
+        }else{
+            dateStringFormated = selectedDate;
+        }
+        console.log("BEFORE :"+dateStringFormated);
+        if (dateStringFormated[4] == '-') {
+            dateStringFormated = dateStringFormated.toString().substring(0,10);
+            console.log("IF :"+dateStringFormated);
+        }else{
+            dateStringFormated = FormataStringData(dateStringFormated);
+            console.log("ELSE :"+dateStringFormated)
+        }
         var ISODate = new Date(dateStringFormated);
         let object = {
             title: title,
             typeActivity: typeActivity,
             date: dateStringFormated,
-            iso_date:ISODate,
+            iso_date: ISODate,
             time: time,
             okr: okr,
             observation: observation
         }
-        database.collection(idUser).add(object)
-        console.log(object)
-        props.navigation.navigate("Success", { idUser: props.idUser })
+        database.collection(idUser).add(object);
+        console.log(object);
+        props.navigation.navigate("Success", { idUser: props.idUser });
     }
     return (
 
@@ -181,11 +198,11 @@ export default function TaskForm(props) {
                             testID="dateTimePicker"
                             value={date}
                             mode={mode}
-                           
+
                             is24Hour={true}
                             display="default"
                             onChange={onChange}
-                            
+
                         />
                     )}
                 </View>
@@ -236,7 +253,7 @@ export default function TaskForm(props) {
                                 <TextInput
                                     multiline
                                     onChangeText={(observation) => setObservation(observation)}
-                                    
+
                                     value={observation}
                                     style={styles.textInputInsideModal}
                                 />
@@ -322,7 +339,7 @@ const styles = StyleSheet.create({
     },
     timeTextInput: {
         backgroundColor: '#fff',
-        fontWeight:"bold",
+        fontWeight: "bold",
         color: "#000a4c",
         height: 50,
         fontSize: 24,

@@ -7,9 +7,9 @@ const screenHeight = Dimensions.get('window').height;
 import { UserContext } from '../../../App';
 import 'firebase/firestore';
 import firebase from '../../config/firebase';
-
+import { sumTimes } from './somador';
 const { width } = Dimensions.get('screen');
-export default function UserProgressBar(props) {
+export default function UserProgressBarDay(props) {
 
     var data = new Date();
     var curr = new Date(data.valueOf() - data.getTimezoneOffset() * 60000); // get current date
@@ -21,13 +21,43 @@ export default function UserProgressBar(props) {
 
     const { idUser, setIdUser } = useContext(UserContext);
     const barWidth = useRef(new Animated.Value(0)).current;
-    const [finalWidth, setFinalWidth] = useState(width * 0.85);
+    const [finalWidth, setFinalWidth] = useState(0);
 
     var db = firebase.firestore();
     const [dayHoursArray, setDayHoursArray] = useState([]);
-    const [hourSum, setHourSum] = useState(0);
+    const [loadedData, setLoadedData] = useState(false);
+    const [hourSum, setHourSum] = useState("00:00");
     var DataAtualDeHoje = new Date(data.valueOf() - data.getTimezoneOffset() * 60000);
+
+    function configureProgressBar() {
+        //console.log("FirstDay: " + firstday + "Lastday: " + lastday + "Today: " + DataAtualDeHoje.toISOString().substring(0, 10));
+        let hours = "00:00:00";
+        for (let index in dayHoursArray) {
+            hours = sumTimes(hours, dayHoursArray[index].time.toString() + ":00");
+        }
+        setHourSum(hours.substring(0, 5));
+
+        var a = hours.split(':');
+        var seconds = (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]);
+        //console.log("Seconds: " + seconds)
+        let percentOfBar = ((seconds * (width * 0.85)) / 10800);
+
+        if (seconds >= 10800) {
+            setFinalWidth(width * 0.85);
+        } else {
+            setFinalWidth(percentOfBar);
+        }
+        //console.log("HORA SOMADA: " + hours + "\nPORCENTAGEM: " + percentOfBar);
+
+    }
+
     useEffect(() => {
+        Animated.spring(barWidth, {
+            toValue: finalWidth,
+            bounciness: 10,
+            speed: 2,
+            useNativeDriver: false
+        }).start();
         db.collection(idUser).where("date", "==", DataAtualDeHoje.toISOString().substring(0, 10))
             .get()
             .then((querySnapshot) => {
@@ -37,31 +67,25 @@ export default function UserProgressBar(props) {
                     //console.log(doc.id, " => ", doc.data());
                     arrayOfDocs.push({ ...doc.data(), id: doc.id });
                 });
-                setDayHoursArray(arrayOfDocs);
+                if( !loadedData ){
+                    setDayHoursArray(arrayOfDocs);
+                    setLoadedData(true);
+                }
             })
             .catch((error) => {
                 console.log("Error getting documents: ", error);
-            });
-        console.log("FirstDay: " + firstday + "Lastday: " + lastday + "Today: " + DataAtualDeHoje.toISOString().substring(0, 10));
-        let hours = "00:00";
-        for (let index in dayHoursArray) {
-            var sum = Date.parse(hours, "hh:mm");
-            var someTime = Date.parse(dayHoursArray[index].time.toString, "hh:mm").add({ hour: sum.getHours(), minute: sum.getMinutes() });
-            hours = someTime.toString("hh:mm");
-        }
-        console.log("HORA SOMADA: "+hours);
-        Animated.spring(barWidth, {
-            toValue: finalWidth,
-            bounciness: 10,
-            speed: 2,
-            useNativeDriver: false
-        }).start();
-    }, [])
+            })
+        configureProgressBar();
+
+        //console.log("hourSum: " + hourSum)
+
+    }, [loadedData, dayHoursArray]);
+
     return (
         <View style={styles.progressBarComponentContainer}>
-            <View>
+            <View style={styles.informationContainerText}>
                 <Text style={styles.barTitle}>Seu dia</Text>
-                <Text style={styles.barDayHourProgress}>02:00 / 03:00</Text>
+                <Text style={styles.barDayHourProgress} >{hourSum} / 03:00</Text>
             </View>
             <View style={styles.barContainer}>
                 <Animated.View style={[styles.progressBar, { width: barWidth }]} />
@@ -73,11 +97,14 @@ export default function UserProgressBar(props) {
 
 const styles = StyleSheet.create({
     progressBarComponentContainer: {
-        margin: 25
+        marginLeft: 25,
+        marginRight: 25,
+        marginTop: 20,
+
     },
     barTitle: {
         fontWeight: 'bold',
-        fontSize: 24,
+        fontSize: 20,
         color: '#000a4c',
         textAlign: 'left',
 
@@ -85,22 +112,27 @@ const styles = StyleSheet.create({
     barDayHourProgress: {
         marginTop: 5,
         marginBottom: 10,
-        fontWeight: 'bold',
-        fontSize: 24,
+        fontSize: 20,
         color: '#000a4c',
         textAlign: 'left',
     },
+    informationContainerText:{
+        flexDirection:'row',
+        justifyContent:'space-between',
+        alignItems:'center',
+        alignContent:'center',
+        //backgroundColor:'pink'
+    },
     barContainer: {
-        flex: 1,
+        borderRadius: 15,
         justifyContent: 'center',
         alignItems: 'flex-start',
-
-        backgroundColor: 'yellow'
+        width: width * 0.85,
+        backgroundColor: '#b9bbbf',
     },
     progressBar: {
-        backgroundColor: 'purple',
-        width: width * 0.85,
-        height: 12,
+        backgroundColor: '#247264',
+        height: 15,
         borderRadius: 15,
     }
 });
