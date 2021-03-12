@@ -23,6 +23,12 @@ export default function Settings({ navigation }) {
             >
                 <Text style={styles.textButtonRegister}>Sair fora</Text>
             </TouchableOpacity>
+            <TouchableOpacity
+                style={styles.buttonRegister}
+                onPress={()=>navigation.navigate("ConfigOkr")}
+            >
+                <Text style={styles.textButtonRegister}>Configurar O.K.Rs</Text>
+            </TouchableOpacity>
         </SafeAreaView>
     )
 }

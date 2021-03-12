@@ -13,7 +13,7 @@ import firebase from './config/firebase';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import UserProgressBarDay from './components/user-progress-bar/userProgressBarDay';
 import UserProgressBarWeek from './components/user-progress-bar/userProgressBarWeek';
-
+import ConfigOkr from './pages/settings/config-okr/ConfigOkr'
 
 const Tab = createBottomTabNavigator();
 const { width } = Dimensions.get('window')
@@ -125,6 +125,8 @@ export default function Home() {
       <Stack.Screen name="SecondHome" component={SecondHome} options={{ headerShown: false }}/>
       <Stack.Screen name="NewTask" component={NewTask} options={{ headerShown: false }} />
       <Stack.Screen name="History" component={History} options={{ headerShown: false }} />
+      <Stack.Screen name="ConfigOkr" component={ConfigOkr} options={{ headerShown: false }} />
+
     </Stack.Navigator>
   );
 }
