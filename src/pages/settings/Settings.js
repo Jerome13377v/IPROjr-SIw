@@ -21,7 +21,7 @@ export default function Settings({ navigation }) {
                 style={styles.buttonRegister}
                 onPress={()=>logout()}
             >
-                <Text style={styles.textButtonRegister}>Sair fora</Text>
+                <Text style={styles.textButtonRegister}>Sair</Text>
             </TouchableOpacity>
             <TouchableOpacity
                 style={styles.buttonRegister}

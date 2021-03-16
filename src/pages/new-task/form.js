@@ -249,7 +249,7 @@ export default function TaskForm(props) {
                     >
                         <View style={styles.centeredView}>
                             <View style={styles.modalView}>
-                                <Text style={styles.modalText}>Hello World!</Text>
+                                <Text style={styles.modalText}>Observação</Text>
                                 <TextInput
                                     multiline
                                     onChangeText={(observation) => setObservation(observation)}
@@ -261,7 +261,7 @@ export default function TaskForm(props) {
                                     style={[styles.buttonInsideModal]}
                                     onPress={() => setModalVisible(!modalVisible)}
                                 >
-                                    <Text style={styles.textStyle}>Hide Modal</Text>
+                                    <Text style={styles.textStyle}>Pronto</Text>
                                 </Pressable>
                             </View>
                         </View>
@@ -282,7 +282,7 @@ export default function TaskForm(props) {
                     fontWeight: "bold",
                     fontSize: 24,
                     textAlign: 'center'
-                }}>Submit</Text>
+                }}>Ok!</Text>
             </Pressable>
         </KeyboardAvoidingView>
 
