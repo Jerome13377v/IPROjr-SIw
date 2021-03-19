@@ -14,6 +14,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import UserProgressBarDay from './components/user-progress-bar/userProgressBarDay';
 import UserProgressBarWeek from './components/user-progress-bar/userProgressBarWeek';
 import ConfigOkr from './pages/settings/config-okr/ConfigOkr'
+import { Bugs, FeedBack } from './pages/project-forms/ProjectForms';
 
 const Tab = createBottomTabNavigator();
 const { width } = Dimensions.get('window')
@@ -84,10 +85,10 @@ function SecondHome({ navigation }) {
         <TouchableOpacity onPress={() => navigation.navigate('History')}>
           <HomeMainButtons buttonType="history" buttonTitle="Histórico" />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('NewTask', {idUser: idUser})}>
+        <TouchableOpacity onPress={() => navigation.navigate('FeedBack', {idUser: idUser})}>
           <HomeMainButtons buttonType="add-alarm" buttonTitle="Nova Tarefa" />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('History')}>
+        <TouchableOpacity onPress={() => navigation.navigate('Bugs')}>
           <HomeMainButtons buttonType="bug-report" buttonTitle="Reportar Bug" />
         </TouchableOpacity>
       </View>
@@ -126,6 +127,8 @@ export default function Home() {
       <Stack.Screen name="NewTask" component={NewTask} options={{ headerShown: false }} />
       <Stack.Screen name="History" component={History} options={{ headerShown: false }} />
       <Stack.Screen name="ConfigOkr" component={ConfigOkr} options={{ headerShown: false }} />
+      <Stack.Screen name="Bugs" component={Bugs} options={{ headerShown: false }} />
+      <Stack.Screen name="FeedBack" component={FeedBack} options={{ headerShown: false }} />
 
     </Stack.Navigator>
   );
