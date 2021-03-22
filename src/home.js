@@ -86,7 +86,7 @@ function SecondHome({ navigation }) {
           <HomeMainButtons buttonType="history" buttonTitle="Histórico" />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('FeedBack', {idUser: idUser})}>
-          <HomeMainButtons buttonType="add-alarm" buttonTitle="Nova Tarefa" />
+          <HomeMainButtons buttonType="chat-bubble" buttonTitle="FeedBack!" />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('Bugs')}>
           <HomeMainButtons buttonType="bug-report" buttonTitle="Reportar Bug" />
