@@ -1,34 +1,62 @@
 import React from 'react'
-import { Text, View, StyleSheet, SafeAreaView, TouchableOpacity } from 'react-native';
+import { Text, View, StyleSheet, SafeAreaView, TouchableOpacity, Dimensions } from 'react-native';
 import firebase from '../../config/firebase';
 import 'firebase/firestore';
+import { Icon, Ionicons, MaterialIcons } from 'react-native-vector-icons';
 
 
+const screenWidth = Dimensions.get('window').width
 export default function Settings({ navigation }) {
-    function logout(){
+    const arrowSize = 25;
+    const iconSize = 20;
+    function logout() {
         firebase.auth().signOut().then(() => {
-           
+
             navigation.navigate("Login");
             // Sign-out successful.
-          }).catch((error) => {
+        }).catch((error) => {
             console.log(error);
-          });
+        });
     }
     return (
         <SafeAreaView>
             <Text style={styles.settingsTitle}>Configurações</Text>
-            <TouchableOpacity
-                style={styles.buttonRegister}
-                onPress={()=>logout()}
-            >
-                <Text style={styles.textButtonRegister}>Sair</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-                style={styles.buttonRegister}
-                onPress={()=>navigation.navigate("ConfigOkr")}
-            >
-                <Text style={styles.textButtonRegister}>Configurar O.K.Rs</Text>
-            </TouchableOpacity>
+            <View style={styles.settingsView}>
+                <TouchableOpacity
+                    style={styles.settingItem}
+                    onPress={() => navigation.navigate("ConfigOkr")}
+                >
+                    <View style={styles.iconAndTextItemSetting}>
+                        <MaterialIcons name="list-alt" size={iconSize} color="#000a4c" />
+                        <Text style={styles.textButtonRegister}>Configurar O.K.Rs</Text>
+                    </View>
+                    <MaterialIcons name="keyboard-arrow-right" size={arrowSize} color="#000a4c" />
+                </TouchableOpacity>
+
+
+                <TouchableOpacity
+                    style={styles.settingItem}
+                    onPress={() => navigation.navigate("ChangePassword")}
+                >
+                    <View style={styles.iconAndTextItemSetting}>
+                        <MaterialIcons name="lock-outline" size={iconSize} color="#000a4c" style={{ marginRight: 3 }} />
+                        <Text style={styles.textButtonRegister}>Trocar Senha</Text>
+                    </View>
+                    <MaterialIcons name="keyboard-arrow-right" size={arrowSize} color="#000a4c" />
+                </TouchableOpacity>
+
+
+                <TouchableOpacity
+                    style={styles.settingItem}
+                    onPress={() => logout()}
+                >
+                    <View style={styles.iconAndTextItemSetting}>
+                        <MaterialIcons name="logout" size={iconSize} color="#000a4c" style={{ marginRight: 3 }} />
+                        <Text style={styles.textButtonRegister}>Sair</Text>
+                    </View>
+                    <MaterialIcons name="keyboard-arrow-right" size={arrowSize} color="#000a4c" />
+                </TouchableOpacity>
+            </View>
         </SafeAreaView>
     )
 }
@@ -41,18 +69,31 @@ const styles = StyleSheet.create({
         marginTop: 40,
         marginLeft: 20
     },
-    buttonRegister: {
-        width: 200,
-        height: 50,
+    settingsView: {
+
+        //backgroundColor: 'red',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#000a4c',
-        borderRadius: 8,
-        marginTop: 30,
+        marginTop:30
+
+
+    },
+    settingItem: {
+        width: screenWidth * 0.8,
+        height: 50,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        borderBottomColor: "#000a4c",
+        borderBottomWidth: StyleSheet.hairlineWidth,
+        marginTop: 5,
     },
     textButtonRegister: {
-        color: '#fff',
-        fontWeight: 'bold',
-        fontSize: 24
+        color: '#000a4c',
+        fontSize: 18
+    },
+    iconAndTextItemSetting: {
+        flexDirection: 'row',
+        alignItems: 'center',
     },
 });
