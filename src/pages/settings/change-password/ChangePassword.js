@@ -12,11 +12,15 @@ import {
 } from 'react-native';
 
 import firebase from '../../../config/firebase';
+import LottieView from 'lottie-react-native';
+import preparingEmailJson from '../../../../assets/animations/preparingEmail.json';
+import { CommonActions } from '@react-navigation/native';
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import 'firebase/firestore';
 
 const screenWidth = Dimensions.get('window').width
+const size = Dimensions.get('window').width * 0.7
 export default function Login({ navigation }) {
     const [email, setEmail] = useState("");
     const [newPassword, setNewPassword] = useState("");
@@ -36,17 +40,9 @@ export default function Login({ navigation }) {
         });
     }, []);
     function sendEmailFirebase() {
-        firebase.auth().sendPasswordResetEmail(user.email)
-            .then(() => {
-                console.log("Email enviado")
-                navigation.navigate("MyTabs", { idUser: idUser })
-            })
-            .catch((error) => {
-                var errorCode = error.code;
-                var errorMessage = error.message;
-                console.log(errorCode+": "+errorMessage);
-                // ..
-            });
+        navigation.navigate("SendingEmail", { emailUser: user.email, idUser: idUser })
+        
+        
 
             //console.log(user.email);
     }
@@ -64,7 +60,9 @@ export default function Login({ navigation }) {
                 Ao pressionar o botão,
                 um link para redefinição de senha será enviado para o seu e-mail
             </Text>
-
+            <View style={styles.animationContainer}>
+            <LottieView style={{ width: size, height: size }} source={preparingEmailJson} autoPlay resizeMode='contain' />
+        </View>
             <TouchableOpacity
                 style={styles.buttonSendEmail}
                 onPress={sendEmailFirebase}

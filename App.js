@@ -14,6 +14,7 @@ import { createContext } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Splashscreen from './src/screens/Splashscreen';
 import Success from './src/screens/Success';
+import SendingEmail from './src/screens/SendingEmail';
 const Tab = createBottomTabNavigator();
 export const UserContext = createContext();
 
@@ -80,6 +81,7 @@ export function AppStartupScreen() {
       <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
       <Stack.Screen name="NewUser" component={NewUser} options={{ headerShown: false }} />
       <Stack.Screen name="MyTabs" component={MyTabs} options={{ headerShown: false, headerLeft: null }} />
+      <Stack.Screen name="SendingEmail" component={SendingEmail} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 }
