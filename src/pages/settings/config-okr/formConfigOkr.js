@@ -24,53 +24,53 @@ import 'firebase/firestore';
 import firebase from '../../../config/firebase';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContext } from 'react-navigation';
+import { ScrollView } from 'react-native-gesture-handler';
 
 
 
+
+
+const height = Dimensions.get('window').height;
+const width = Dimensions.get('window').width
 export default function FormConfigOkr(props) {
     const [idUser, setIdUser] = useState(props.idUser);
     var database = firebase.firestore();
 
 
-    const [ krNumber, setKrNumber ] = useState(0);
-    const [ krText, setKrText ] = useState(0);
+    const [krNumber, setKrNumber] = useState(0);
+    const [krText, setKrText] = useState(0);
+
+    const [krData11, setKrData11] = useState({ number: '1.1', description: "" });
+    const [krData, setKrData] = useState([
+        { id: 0, number: '1.1', description: "" },
+        { id: 1, number: '1.2', description: "" },
+        { id: 2, number: '1.3', description: "" },
+        { id: 3, number: '1.4', description: "" },
+
+        { id: 4, number: '2.1', description: "" },
+        { id: 5, number: '2.2', description: "" },
+        { id: 6, number: '2.3', description: "" },
+        { id: 7, number: '2.4', description: "" },
+
+        { id: 8, number: '3.1', description: "" },
+        { id: 9, number: '3.2', description: "" },
+        { id: 10, number: '3.3', description: "" },
+        { id: 11, number: '3.4', description: "" },
+    ]);
+
+    function updateInputNumber(index, number){
+        setKrData([...krData, krData[index].number = number]);
+        console.log(krData[index]);
+    }
+    function updateInputDescription(index, description){
+        setKrData([...krData, krData[index].description = description]);
+        console.log(krData[index]);
+    }
 
 
-    
-
-
-   
-
-    function enviarDados() {
-        console.log("CRU:" + selectedDate);
-
-        let dateStringFormated;
-        if (typeof (selectedDate) == 'object') {
-            dateStringFormated = selectedDate.toISOString();
-        } else {
-            dateStringFormated = selectedDate;
-        }
-        console.log("BEFORE :" + dateStringFormated);
-        if (dateStringFormated[4] == '-') {
-            dateStringFormated = dateStringFormated.toString().substring(0, 10);
-            console.log("IF :" + dateStringFormated);
-        } else {
-            dateStringFormated = FormataStringData(dateStringFormated);
-            console.log("ELSE :" + dateStringFormated)
-        }
-        var ISODate = new Date(dateStringFormated);
-        let object = {
-            title: title,
-            typeActivity: typeActivity,
-            date: dateStringFormated,
-            iso_date: ISODate,
-            time: time,
-            okr: okr,
-            observation: observation
-        }
-        database.collection(idUser).add(object);
-        console.log(object);
-        props.navigation.navigate("Success", { idUser: props.idUser });
+    function updateTest(description) {
+        setKrData11({ ...krData11, description: description })
+        console.log(krData11);
     }
     return (
 
@@ -82,50 +82,49 @@ export default function FormConfigOkr(props) {
                 <Text style={styles.headerKrNumber}>K.R</Text>
                 <Text style={styles.headerKrTitle}>Atividade</Text>
             </View>
-            <View style={styles.krSection}>
-                <TextInput
-                    onChangeText={(title) => setKrNumber(title)}
-                    value={krNumber}
-                    style={styles.numberKrInput}
-                    keyboardType='numeric'
-                />
-                <TextInput
-                    onChangeText={(title) => setKrText(title)}
-                    value={krText}
-                    style={styles.textKrInput}
-                />
-            </View>
-            <View style={styles.krSection}>
-                <TextInput
-                    onChangeText={(title) => setKrNumber(title)}
-                    value={krNumber}
-                    style={styles.numberKrInput}
-                    keyboardType='numeric'
-                />
-                <TextInput
-                    onChangeText={(title) => setKrText(title)}
-                    value={krText}
-                    style={styles.textKrInput}
-                />
-            </View>
-            <View style={styles.krSection}>
-                <TextInput
-                    onChangeText={(title) => setKrNumber(title)}
-                    value={krNumber}
-                    style={styles.numberKrInput}
-                    keyboardType='numeric'
-                />
-                <TextInput
-                    onChangeText={(title) => setKrText(title)}
-                    value={krText}
-                    style={styles.textKrInput}
-                />
-            </View>
+            <ScrollView style={{ paddingBottom: 100, height: height - 230, width: width * 0.9, alignSelf: 'center' }}>
+
+                {
+                    krData.map((input, index) => {
+                        return (
+                            <View style={styles.krSection} data-id={index}>
+                                <TextInput
+                                    onChangeText={(number)=>{updateInputNumber(index, number)}}
+                                    value={input.number}
+                                    style={styles.numberKrInput}
+                                    keyboardType='numeric'
+                                />
+                                <TextInput
+                                    onChangeText={(description) => {updateInputDescription(index, description)}}
+                                    value={input.description}
+                                    style={styles.textKrInput}
+                                />
+                            </View>
+                        );
+                    })
+                }
+
+                
 
 
 
 
-            <Pressable onPress={enviarDados} style={({ pressed }) => [
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </ScrollView>
+            <Pressable style={({ pressed }) => [
                 {
                     backgroundColor: pressed
                         ? '#bb460b'
@@ -151,31 +150,32 @@ const styles = StyleSheet.create({
     formContainer: {
         marginTop: 20,
         width: screenWidth * 0.9,
+        height: height - 180,
         alignSelf: 'center',
     },
-    tableHeader:{
-        flexDirection:'row',
+    tableHeader: {
+        flexDirection: 'row',
 
     },
-    headerKrNumber:{
+    headerKrNumber: {
         fontWeight: 'bold',
         fontSize: 22,
         marginBottom: 10,
         color: '#000a4c',
-        flexBasis:'auto',
-        flexShrink:1,
-        flexGrow:1
+        flexBasis: 'auto',
+        flexShrink: 1,
+        flexGrow: 1
     },
-    headerKrTitle:{
+    headerKrTitle: {
         fontWeight: 'bold',
         fontSize: 22,
         marginBottom: 10,
         color: '#000a4c',
-        flexBasis:'auto',
-        flexShrink:1,
-        flexGrow:3
+        flexBasis: 'auto',
+        flexShrink: 1,
+        flexGrow: 3
     },
-    numberKrInput:{
+    numberKrInput: {
         backgroundColor: '#fff',
         height: 50,
         fontSize: 24,
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
         elevation: 1,
         marginBottom: 10,
     },
-    textKrInput:{
+    textKrInput: {
         backgroundColor: '#fff',
         height: 50,
         fontSize: 24,
@@ -197,9 +197,9 @@ const styles = StyleSheet.create({
         elevation: 1,
         marginBottom: 10,
     },
-    krSection:{
-        flexDirection:'row',
-        justifyContent:'space-between'
+    krSection: {
+        flexDirection: 'row',
+        justifyContent: 'space-between'
     },
     textInputTitle: {
         fontWeight: 'bold',
@@ -218,8 +218,8 @@ const styles = StyleSheet.create({
         elevation: 1,
         marginBottom: 10,
     },
-    
-    
+
+
 
     submitButton: {
         borderRadius: 6,
