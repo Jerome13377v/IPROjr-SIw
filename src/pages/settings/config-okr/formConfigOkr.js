@@ -34,7 +34,7 @@ const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width
 export default function FormConfigOkr(props) {
     const [idUser, setIdUser] = useState(props.idUser);
-    var database = firebase.firestore();
+    var db = firebase.firestore();
 
 
     const [krNumber, setKrNumber] = useState(0);
@@ -58,19 +58,28 @@ export default function FormConfigOkr(props) {
         { id: 11, number: '3.4', description: "" },
     ]);
 
-    function updateInputNumber(index, number){
-        setKrData([...krData, krData[index].number = number]);
+    function updateInputNumber(index, number) {
+        let newKrData = krData;
+        newKrData[index].number = number;
+        setKrData([...newKrData]);
         console.log(krData[index]);
     }
-    function updateInputDescription(index, description){
-        setKrData([...krData, krData[index].description = description]);
+    function updateInputDescription(index, description) {
+        let newKrData = krData;
+        newKrData[index].description = description;
+        setKrData([...newKrData]);
         console.log(krData[index]);
     }
 
 
-    function updateTest(description) {
-        setKrData11({ ...krData11, description: description })
-        console.log(krData11);
+    function updateUserKrs() {
+        var userDoc = db.collection("users").doc(idUser);
+        userDoc.update({
+            krs: krData,
+            isKrSeted: true
+        })
+        
+        //db.collection("users").doc(idUser).set(userDoc);
     }
     return (
 
@@ -89,13 +98,13 @@ export default function FormConfigOkr(props) {
                         return (
                             <View style={styles.krSection} data-id={index}>
                                 <TextInput
-                                    onChangeText={(number)=>{updateInputNumber(index, number)}}
+                                    onChangeText={(number) => { updateInputNumber(index, number) }}
                                     value={input.number}
                                     style={styles.numberKrInput}
                                     keyboardType='numeric'
                                 />
                                 <TextInput
-                                    onChangeText={(description) => {updateInputDescription(index, description)}}
+                                    onChangeText={(description) => { updateInputDescription(index, description) }}
                                     value={input.description}
                                     style={styles.textKrInput}
                                 />
@@ -104,7 +113,7 @@ export default function FormConfigOkr(props) {
                     })
                 }
 
-                
+
 
 
 
@@ -124,7 +133,7 @@ export default function FormConfigOkr(props) {
 
 
             </ScrollView>
-            <Pressable style={({ pressed }) => [
+            <Pressable onPress={updateUserKrs} style={({ pressed }) => [
                 {
                     backgroundColor: pressed
                         ? '#bb460b'

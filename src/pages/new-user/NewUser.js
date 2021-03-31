@@ -30,7 +30,8 @@ export default function NewUser({ navigation }) {
                 
                 db.collection("users").doc(user.uid).set({
                     name: name,
-                    course: "Software Engineering"
+                    isKrSeted:false,
+                    krs:[],
                 })
                 .then(() => {
                     console.log("Document successfully written!");
