@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     StyleSheet,
     Button, TextInput,
@@ -30,6 +30,22 @@ import { NavigationContext } from 'react-navigation';
 export default function TaskForm(props) {
     const [idUser, setIdUser] = useState(props.idUser);
     var database = firebase.firestore();
+    const [krData, setKrData] = useState([]);
+    useEffect(() => {
+        var userDoc = database.collection("users").doc(idUser);
+
+        userDoc.get().then((doc) => {
+            let docData = doc.data();
+            //console.log("Document data:", doc.data());
+            setKrData([...docData.krs]);
+        })
+
+        /*let docData = userDoc.data();
+        console.log("Tipo de dado: "+typeof(docData));
+        console.log("----------------------------------\n");
+        console.log(docData)
+        console.log(krData);*/
+    }, []);
 
 
     // Titulo da atividade
@@ -94,21 +110,21 @@ export default function TaskForm(props) {
     }
 
     function enviarDados() {
-        console.log("CRU:"+selectedDate);
+        //console.log("CRU:"+selectedDate);
 
         let dateStringFormated;
-        if(typeof(selectedDate) == 'object'){
+        if (typeof (selectedDate) == 'object') {
             dateStringFormated = selectedDate.toISOString();
-        }else{
+        } else {
             dateStringFormated = selectedDate;
         }
-        console.log("BEFORE :"+dateStringFormated);
+        console.log("BEFORE :" + dateStringFormated);
         if (dateStringFormated[4] == '-') {
-            dateStringFormated = dateStringFormated.toString().substring(0,10);
-            console.log("IF :"+dateStringFormated);
-        }else{
+            dateStringFormated = dateStringFormated.toString().substring(0, 10);
+            //console.log("IF :"+dateStringFormated);
+        } else {
             dateStringFormated = FormataStringData(dateStringFormated);
-            console.log("ELSE :"+dateStringFormated)
+            //console.log("ELSE :"+dateStringFormated)
         }
         var ISODate = new Date(dateStringFormated);
         let object = {
@@ -121,7 +137,7 @@ export default function TaskForm(props) {
             observation: observation
         }
         database.collection(idUser).add(object);
-        console.log(object);
+        //console.log(object);
         props.navigation.navigate("Success", { idUser: props.idUser });
     }
     return (
@@ -218,7 +234,13 @@ export default function TaskForm(props) {
                             onValueChange={(itemValue, itemIndex) =>
                                 setOkr(itemValue)
                             }>
-                            <Picker.Item label="1.2 - Funções do cargo" value="Funções do cargo" />
+                            {krData.map((KR, index) => {
+                                return (
+                                    <Picker.Item data-id={index} label={`${KR.number} - ${KR.description}`} value={`${KR.number} - ${KR.description}`} />
+
+                                );
+                            })}
+                            {/*<Picker.Item label="1.2 - Funções do cargo" value="Funções do cargo" />
                             <Picker.Item label="1.3 -Reuniões do setor/coordenadoria" value="Reuniões do setor/coordenadoria" />
                             <Picker.Item label="1.1 - Reuniões fora do escopo" value="Reuniões fora do escopo" />
                             <Picker.Item label="2.1 - RA e RG" value="RA e RG" />
@@ -227,7 +249,7 @@ export default function TaskForm(props) {
                             <Picker.Item label="3.3 - Execução de projetos" value="Execução de projetosa" />
                             <Picker.Item label="4.1 - Palestras e/ou capacitações" value="Palestras e/ou capacitações" />
                             <Picker.Item label="4.2 - Processo seletivo" value="Processo seletivo" />
-                            <Picker.Item label="4.3 - Interações MEJ" value="Interações MEJ" />
+                        <Picker.Item label="4.3 - Interações MEJ" value="Interações MEJ" />*/}
                         </Picker>
                     </View>
                 </View>
