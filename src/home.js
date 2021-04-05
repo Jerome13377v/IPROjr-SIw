@@ -16,6 +16,7 @@ import UserProgressBarWeek from './components/user-progress-bar/userProgressBarW
 import ConfigOkr from './pages/settings/config-okr/ConfigOkr'
 import { Bugs, FeedBack } from './pages/project-forms/ProjectForms';
 import ChangePassword from './pages/settings/change-password/ChangePassword'
+import NeedToConfigOkr from './screens/NeedToConfigOkr';
 
 const Tab = createBottomTabNavigator();
 const { width } = Dimensions.get('window')
@@ -131,6 +132,8 @@ export default function Home() {
       <Stack.Screen name="Bugs" component={Bugs} options={{ headerShown: false }} />
       <Stack.Screen name="ChangePassword" component={ChangePassword} options={{ headerShown: false }} />
       <Stack.Screen name="FeedBack" component={FeedBack} options={{ headerShown: false }} />
+      <Stack.Screen name="NeedToConfigOkr" component={NeedToConfigOkr} options={{ headerShown: false }} />
+
     </Stack.Navigator>
   );
 }
