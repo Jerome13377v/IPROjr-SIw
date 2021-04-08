@@ -1,29 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     StyleSheet,
-    Button, TextInput,
+    TextInput,
     View,
     Dimensions,
     Text,
-    TouchableOpacity,
     KeyboardAvoidingView,
-    Modal,
     Pressable,
-    DrawerLayoutAndroidBase,
-    useContext
 } from 'react-native';
-import { Formik, Field } from 'formik';
-import { Picker } from '@react-native-picker/picker';
-import DatePicker from 'react-native-datepicker';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import RNDateTimePicker from '@react-native-community/datetimepicker';
 const screenWidth = Dimensions.get('window').width;
-const screenHeight = Dimensions.get('window').height;
-import { UserContext } from '../../../../App';
 import 'firebase/firestore';
 import firebase from '../../../config/firebase';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { NavigationContext } from 'react-navigation';
 import { ScrollView } from 'react-native-gesture-handler';
 
 
@@ -78,9 +65,19 @@ export default function FormConfigOkr(props) {
             krs: krData,
             isKrSeted: true
         })
-        
+        props.navigation.navigate("Success", { idUser: props.idUser });
+
         //db.collection("users").doc(idUser).set(userDoc);
     }
+    useEffect(() => {
+        var userDoc = db.collection("users").doc(idUser);
+        userDoc.get().then((doc) => {
+            let userDocData = doc.data();
+            if (userDocData.isKrSeted) {
+                setKrData([...userDocData.krs]);
+            }
+        })
+    }, [])
     return (
 
         <KeyboardAvoidingView
@@ -112,25 +109,6 @@ export default function FormConfigOkr(props) {
                         );
                     })
                 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
             </ScrollView>
             <Pressable onPress={updateUserKrs} style={({ pressed }) => [

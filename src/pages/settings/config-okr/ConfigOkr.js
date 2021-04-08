@@ -9,7 +9,6 @@ export default function ConfigOkr({ navigation}) {
     const { idUser, setIdUser } = useContext(UserContext);
     return (
         <SafeAreaView>
-        
             <Text style={styles.newTaskTitle}>Configurar K.Rs</Text>
             <FormConfigOkr  idUser={idUser} navigation={navigation}/>
         </SafeAreaView>
