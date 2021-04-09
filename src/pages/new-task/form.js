@@ -31,23 +31,20 @@ export default function TaskForm(props) {
     const [idUser, setIdUser] = useState(props.idUser);
     var database = firebase.firestore();
     const [krData, setKrData] = useState([]);
+    
     useEffect(() => {
         var userDoc = database.collection("users").doc(idUser);
 
         userDoc.get().then((doc) => {
             let docData = doc.data();
-            //console.log("Document data:", doc.data());
-            setKrData([...docData.krs]);
+            setKrData(docData.krs.filter(function (el){
+                return el.description != "";
+            }));
+           
         })
 
-        /*let docData = userDoc.data();
-        console.log("Tipo de dado: "+typeof(docData));
-        console.log("----------------------------------\n");
-        console.log(docData)
-        console.log(krData);*/
+
     }, []);
-
-
     // Titulo da atividade
     const [title, setTitle] = useState("")
     // Tipo de atividade
@@ -330,10 +327,10 @@ const styles = StyleSheet.create({
         height: 50,
         fontSize: 24,
         width: "100%",
-        borderRadius: 6,
+        borderRadius: 8,
         alignSelf: 'center',
         padding: 8,
-        elevation: 1,
+        elevation: 2,
         marginBottom: 10,
     },
     pickerField: {
