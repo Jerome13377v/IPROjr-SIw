@@ -55,7 +55,7 @@ export default function History() {
                 data={taskListHistory}
                 contentContainerStyle={{ alignItems: 'center', paddingBottom: 100 }}
                 keyExtractor={item => String(item.id)}
-                renderItem={({ item }) => <TaskHistoryItem title={item.title} observation={item.observation} time={item.time} />}
+                renderItem={({ item }) => <TaskHistoryItem idUser={idUser} taskId={item.id} title={item.title} date={item.date} observation={item.observation} time={item.time} />}
             />
         </SafeAreaView>
     )
