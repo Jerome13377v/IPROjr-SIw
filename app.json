@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "IPRO-no-time-brother",
+    "name": "ipro.no.time.brother",
     "slug": "IPRO-no-time-brother",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -23,7 +23,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "no.time.brother"
     },
     "web": {
       "favicon": "./assets/favicon.png"
