@@ -31,7 +31,7 @@ export default function UserProgressBarWeek(props) {
 
     function configureProgressBar() {
         console.log("FirstDay: " + firstday + "Lastday: " + lastday + "Today: " + DataAtualDeHoje.toISOString().substring(0, 10));
-        
+
         let hours = "00:00:00";
         for (let index in dayHoursArray) {
             hours = sumTimes(hours, dayHoursArray[index].time.toString() + ":00");
@@ -62,22 +62,23 @@ export default function UserProgressBarWeek(props) {
         let weekStart = new Date(firstday.substring(0, 10));
         let weekEnd = new Date(lastday.substring(0, 10));
 
-        db.collection(idUser).where("iso_date", ">=", weekStart).where("iso_date", "<=", weekEnd).get()
-            .then((querySnapshot) => {
+        db.collection(idUser).where("iso_date", ">=", weekStart).where("iso_date", "<=", weekEnd)
+        .onSnapshot((querySnapshot) => {
                 let arrayOfDocs = []
                 querySnapshot.forEach((doc) => {
                     // doc.data() is never undefined for query doc snapshots
                     console.log(doc.id, " => ", doc.data());
                     arrayOfDocs.push({ ...doc.data(), id: doc.id });
                 });
-                if( !loadedData ){
+                if (!loadedData) {
                     setDayHoursArray(arrayOfDocs);
                     setLoadedData(true);
                 }
             })
-            .catch((error) => {
-                console.log("Error getting documents: ", error);
-            })
+            
+           
+        
+        
         configureProgressBar();
 
         //console.log("hourSum: " + hourSum)
@@ -118,11 +119,11 @@ const styles = StyleSheet.create({
         color: '#000a4c',
         textAlign: 'left',
     },
-    informationContainerText:{
-        flexDirection:'row',
-        justifyContent:'space-between',
-        alignItems:'center',
-        alignContent:'center',
+    informationContainerText: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        alignContent: 'center',
         //backgroundColor:'pink'
     },
     barContainer: {

@@ -59,8 +59,7 @@ export default function UserProgressBarDay(props) {
             useNativeDriver: false
         }).start();
         db.collection(idUser).where("date", "==", DataAtualDeHoje.toISOString().substring(0, 10))
-            .get()
-            .then((querySnapshot) => {
+        .onSnapshot((querySnapshot) => {
                 let arrayOfDocs = []
                 querySnapshot.forEach((doc) => {
                     // doc.data() is never undefined for query doc snapshots
@@ -72,9 +71,7 @@ export default function UserProgressBarDay(props) {
                     setLoadedData(true);
                 }
             })
-            .catch((error) => {
-                console.log("Error getting documents: ", error);
-            })
+            
         configureProgressBar();
 
         //console.log("hourSum: " + hourSum)
