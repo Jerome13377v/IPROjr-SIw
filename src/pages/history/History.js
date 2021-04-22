@@ -31,8 +31,8 @@ export default function History() {
     useEffect(() => {
         let weekStart = new Date(firstday.substring(0, 10));
         let weekEnd = new Date(lastday.substring(0, 10));
-        db.collection(idUser).where("iso_date", ">=", weekStart).where("iso_date", "<=", weekEnd).orderBy("iso_date","desc").get()
-            .then((querySnapshot) => {
+        db.collection(idUser).where("iso_date", ">=", weekStart).where("iso_date", "<=", weekEnd).orderBy("iso_date","desc")
+        .onSnapshot((querySnapshot) => {
                 let taskList = [];
                 querySnapshot.forEach((doc) => {
                     // doc.data() is never undefined for query doc snapshots
@@ -41,9 +41,7 @@ export default function History() {
                 });
                 setTasklistHistory(taskList);
             })
-            .catch((error) => {
-                console.log("Error getting documents: ", error);
-            })
+           
         console.log(taskListHistory)
     }, []);
 
