@@ -87,6 +87,7 @@ export default function TaskHistoryItem(props) {
         var document = db.collection(props.idUser).doc(props.taskId).delete().then(() => {
             console.log("Tarefa Deletada com sucesso");
             console.log(props.taskId)
+            alert("Tarefa Deletada com sucesso");
         }).catch((error) => {
             console.error("Error removing document: ", error);
         });
