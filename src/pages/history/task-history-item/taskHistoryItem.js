@@ -8,7 +8,7 @@ const { width } = Dimensions.get('window')
 const styles = StyleSheet.create({
     card: {
         backgroundColor: '#FFF',
-        height: width / 2.6,
+        minHeight: width / 2.6,
         width: width * 0.8 - 20,
         marginHorizontal: 10,
         borderRadius: 12,
@@ -28,8 +28,10 @@ const styles = StyleSheet.create({
     },
     activityTitle: {
         fontWeight: 'bold',
-        fontSize: 24,
+        fontSize: 20,
         color: '#000a4c',
+        maxWidth:'70%',
+        
         
     },
     removeTaskButton:{
