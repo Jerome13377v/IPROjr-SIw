@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "ipro.no.time.brother",
+    "name": "No Time Brother",
     "slug": "IPRO-no-time-brother",
-    "version": "1.0.0",
+    "version": "1.0.3",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -22,9 +22,9 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
+        "backgroundColor": "#e9ebef"
       },
-      "package": "no.time.brother"
+      "package": "ipro.no.time.brother"
     },
     "web": {
       "favicon": "./assets/favicon.png"
