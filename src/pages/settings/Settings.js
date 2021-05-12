@@ -62,7 +62,7 @@ export default function Settings({ navigation }) {
                 </View>
                 <View style={styles.appVersionView}>
                 <MaterialIcons name="android" size={arrowSize} color="#bbb" />
-                <Text style={styles.appVersionText} >v1.0.0</Text>
+                <Text style={styles.appVersionText} >v1.0.3</Text>
                 </View>
             </View>
         </SafeAreaView>
