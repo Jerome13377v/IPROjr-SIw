@@ -1,7 +1,5 @@
 /node_modules
 /.expo
-APIKEY.js
+API_KEY.js
 yarn.lock
 package-lock.json
-/src/config/firebase.js
-firebase.js
