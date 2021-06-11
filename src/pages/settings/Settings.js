@@ -36,6 +36,16 @@ export default function Settings({ navigation }) {
                         <MaterialIcons name="keyboard-arrow-right" size={arrowSize} color="#000a4c" />
                     </TouchableOpacity>
 
+                    <TouchableOpacity
+                        style={styles.settingItem}
+                        onPress={() => navigation.navigate("ChangeUsername")}
+                    >
+                        <View style={styles.iconAndTextItemSetting}>
+                            <MaterialIcons name="lock-outline" size={iconSize} color="#000a4c" style={{ marginRight: 3 }} />
+                            <Text style={styles.textButtonRegister}>Trocar nome</Text>
+                        </View>
+                        <MaterialIcons name="keyboard-arrow-right" size={arrowSize} color="#000a4c" />
+                    </TouchableOpacity>
 
                     <TouchableOpacity
                         style={styles.settingItem}
