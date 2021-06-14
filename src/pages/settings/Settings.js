@@ -41,7 +41,7 @@ export default function Settings({ navigation }) {
                         onPress={() => navigation.navigate("ChangeUsername")}
                     >
                         <View style={styles.iconAndTextItemSetting}>
-                            <MaterialIcons name="lock-outline" size={iconSize} color="#000a4c" style={{ marginRight: 3 }} />
+                            <MaterialIcons name="account-box" size={iconSize} color="#000a4c" style={{ marginRight: 3 }} />
                             <Text style={styles.textButtonRegister}>Trocar nome</Text>
                         </View>
                         <MaterialIcons name="keyboard-arrow-right" size={arrowSize} color="#000a4c" />
