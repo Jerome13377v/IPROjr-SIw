@@ -6,4 +6,4 @@ Nessa versão, podem ser adicionados K.Rs a vontade ao tocar no botão de "+" no
 Para apagar krs, basta deixar seus campos em branco que serão apagados sozinhos após apertar o botão laranja "Feito!" 
 
 * **Trocar de nome**
-Adicionado um formulário simples para a troca de nome no app sem burocracia.
+Adicionado um formulário simples para a troca de nome no app sem burocracia. Basta acessar as configurações e alterar o nome por lá.
