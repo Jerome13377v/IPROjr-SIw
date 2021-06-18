@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#e9ebef',
         alignItems: 'center',
-        paddingTop: Platform.OS === "ios" ? 0 : 50,
+        paddingTop:0,
     },
     passwordInstructionsMessage:{
         fontWeight:'bold',
