@@ -24,26 +24,7 @@ const { width } = Dimensions.get('window')
 
 
 function SecondHome({ navigation }) {
-  const data = [
-    {
-      id:1,
-      title: 'Relatório Semanal',
-      observation: 'Estive fazendo o relatorio da semana',
-      time: '1h25min'
-    },
-    {
-      id:2,
-      title: 'Leitura de e-mails',
-      observation: 'Estive lendo emails',
-      time: '45min'
-    },
-    {
-      id:3,
-      title: 'Respondendo Telegram',
-      observation: 'Repondi muitas mensagens',
-      time: '1h'
-    }
-  ]
+  
   const storeUserId = async (value) => {
     try {
       await AsyncStorage.setItem('idUser', value)
@@ -142,7 +123,7 @@ export default function Home() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 20,
+    paddingTop: 10,
     backgroundColor: '#e9ebef',
   },
   homeTitle: {
