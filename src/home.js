@@ -137,7 +137,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
     flexDirection: 'row',
     flexWrap:'wrap',
-    backgroundColor:'red',
     flex:1,
     alignItems:'center',
     alignContent:'center'
