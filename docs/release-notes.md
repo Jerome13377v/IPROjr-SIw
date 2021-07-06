@@ -8,6 +8,8 @@ Para apagar krs, basta deixar seus campos em branco que serão apagados sozinhos
 * **Trocar de nome**
 Adicionado um formulário simples para a troca de nome no app sem burocracia. Basta acessar as configurações e alterar o nome por lá.
 
+**Melhoria do Icone da aplicação**
+A Logo da IPRO esta melhor posicionada nesta nova versão
 
 **Bugs Solucionados**
 Melhorada a responsividade para telas pequenas.
