@@ -32,7 +32,8 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.2,
         shadowRadius: 0,
         elevation: 12,
-        marginTop:20
+        marginTop:10,
+        marginBottom:10,
     },
     buttonTitle: {
         fontWeight: 'bold',

@@ -12,6 +12,7 @@ const screenWidth = Dimensions.get('window').width;
 import 'firebase/firestore';
 import firebase from '../../../config/firebase';
 import { ScrollView } from 'react-native-gesture-handler';
+import { Icon, Ionicons, MaterialIcons } from 'react-native-vector-icons';
 
 
 
@@ -27,7 +28,7 @@ export default function FormConfigOkr(props) {
     const [krNumber, setKrNumber] = useState(0);
     const [krText, setKrText] = useState(0);
 
-    const [krData11, setKrData11] = useState({ number: '1.1', description: "" });
+    const[ isDataFieldUpdated, setIsDataFieldUpdated ] = useState(true);
     const [krData, setKrData] = useState([
         { id: 0, number: '1.1', description: "" },
         { id: 1, number: '1.2', description: "" },
@@ -44,6 +45,14 @@ export default function FormConfigOkr(props) {
         { id: 10, number: '3.3', description: "" },
         { id: 11, number: '3.4', description: "" },
     ]);
+    function addKrFiled(){
+        let newStructure = krData;
+        let newField = { id: krData[krData.length - 1].id + 1, number: '0.0', description: "" };
+        newStructure.push(newField);
+        setKrData(newStructure);
+        console.log(krData);
+        setIsDataFieldUpdated(!isDataFieldUpdated);
+    }
 
     function updateInputNumber(index, number) {
         let newKrData = krData;
@@ -58,7 +67,13 @@ export default function FormConfigOkr(props) {
         console.log(krData[index]);
     }
 
-
+    function updateUserKrsWithoutLeaveScreen() {
+        var userDoc = db.collection("users").doc(idUser);
+        userDoc.update({
+            krs: krData,
+            isKrSeted: true
+        })
+    }
     function updateUserKrs() {
         var userDoc = db.collection("users").doc(idUser);
         userDoc.update({
@@ -73,8 +88,11 @@ export default function FormConfigOkr(props) {
         var userDoc = db.collection("users").doc(idUser);
         userDoc.get().then((doc) => {
             let userDocData = doc.data();
-            if (userDocData.isKrSeted) {
-                setKrData([...userDocData.krs]);
+            if (userDocData.isKrSeted  ) {
+                setKrData(userDocData.krs.filter(function (el){
+                    return  ( el.description != "" && el.id != "0.0" ) || ( el.description == "" && el.id == "" ) ;
+                }));
+                
             }
         })
     }, [])
@@ -109,6 +127,17 @@ export default function FormConfigOkr(props) {
                         );
                     })
                 }
+
+                <Pressable onPress={addKrFiled} style={({ pressed }) => [
+                    {
+                        backgroundColor: pressed
+                            ? '#aaa'
+                            : '#ccc'
+                    },
+                    styles.addKrFieldButton
+                ]}>
+                    <MaterialIcons name="add" size={50} color="#777" />
+                </Pressable>
 
             </ScrollView>
             <Pressable onPress={updateUserKrs} style={({ pressed }) => [
@@ -214,6 +243,18 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         elevation: 2,
+    },
+    addKrFieldButton:{
+        
+        borderRadius:3,
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        width:100,
+        marginTop:20,
+        marginBottom:20,
+        alignSelf:'center'
+
     }
 });
 

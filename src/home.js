@@ -17,32 +17,14 @@ import ConfigOkr from './pages/settings/config-okr/ConfigOkr'
 import { Bugs, FeedBack } from './pages/project-forms/ProjectForms';
 import ChangePassword from './pages/settings/change-password/ChangePassword'
 import NeedToConfigOkr from './screens/NeedToConfigOkr';
+import ChangeUsername from './pages/settings/change-username/ChangeUsername';
 
 const Tab = createBottomTabNavigator();
 const { width } = Dimensions.get('window')
 
 
 function SecondHome({ navigation }) {
-  const data = [
-    {
-      id:1,
-      title: 'Relatório Semanal',
-      observation: 'Estive fazendo o relatorio da semana',
-      time: '1h25min'
-    },
-    {
-      id:2,
-      title: 'Leitura de e-mails',
-      observation: 'Estive lendo emails',
-      time: '45min'
-    },
-    {
-      id:3,
-      title: 'Respondendo Telegram',
-      observation: 'Repondi muitas mensagens',
-      time: '1h'
-    }
-  ]
+  
   const storeUserId = async (value) => {
     try {
       await AsyncStorage.setItem('idUser', value)
@@ -133,7 +115,7 @@ export default function Home() {
       <Stack.Screen name="ChangePassword" component={ChangePassword} options={{ headerShown: false }} />
       <Stack.Screen name="FeedBack" component={FeedBack} options={{ headerShown: false }} />
       <Stack.Screen name="NeedToConfigOkr" component={NeedToConfigOkr} options={{ headerShown: false }} />
-
+      <Stack.Screen name="ChangeUsername" component={ChangeUsername} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 }
@@ -141,7 +123,7 @@ export default function Home() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 20,
+    paddingTop: 10,
     backgroundColor: '#e9ebef',
   },
   homeTitle: {
@@ -155,6 +137,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
     flexDirection: 'row',
     flexWrap:'wrap',
+    flex:1,
+    alignItems:'center',
+    alignContent:'center'
   },
   todayActivityTitle: {
     fontWeight: 'bold',

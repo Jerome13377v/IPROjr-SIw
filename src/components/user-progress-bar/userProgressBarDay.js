@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     progressBarComponentContainer: {
         marginLeft: 25,
         marginRight: 25,
-        marginTop: 20,
+        marginTop: 0,
 
     },
     barTitle: {

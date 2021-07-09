@@ -64,7 +64,7 @@ export default function TaskForm(props) {
     const [time, setTime] = useState("00:00");
 
     // O.K.R
-    const [okr, setOkr] = useState("none");
+    const [okr, setOkr] = useState("Sem K.R");
 
     // Modal de observação =================================
     // 
@@ -231,22 +231,13 @@ export default function TaskForm(props) {
                             onValueChange={(itemValue, itemIndex) =>
                                 setOkr(itemValue)
                             }>
+                            <Picker.Item label={`Sem K.R`} value={`Sem K.R`} />
                             {krData.map((KR, index) => {
                                 return (
                                     <Picker.Item data-id={index} label={`${KR.number} - ${KR.description}`} value={`${KR.number} - ${KR.description}`} />
 
                                 );
                             })}
-                            {/*<Picker.Item label="1.2 - Funções do cargo" value="Funções do cargo" />
-                            <Picker.Item label="1.3 -Reuniões do setor/coordenadoria" value="Reuniões do setor/coordenadoria" />
-                            <Picker.Item label="1.1 - Reuniões fora do escopo" value="Reuniões fora do escopo" />
-                            <Picker.Item label="2.1 - RA e RG" value="RA e RG" />
-                            <Picker.Item label="3.1 - AGO" value="AGO" />
-                            <Picker.Item label="3.2 - Propsecção Ativa" value="Propsecção Ativa" />
-                            <Picker.Item label="3.3 - Execução de projetos" value="Execução de projetosa" />
-                            <Picker.Item label="4.1 - Palestras e/ou capacitações" value="Palestras e/ou capacitações" />
-                            <Picker.Item label="4.2 - Processo seletivo" value="Processo seletivo" />
-                        <Picker.Item label="4.3 - Interações MEJ" value="Interações MEJ" />*/}
                         </Picker>
                     </View>
                 </View>
